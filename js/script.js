@@ -364,7 +364,6 @@ function showFloatingHearts(count) {
 
 document.getElementById('location-btn').addEventListener('click', () => {
   if (!navigator.geolocation) {
-    alert('Geolocation is not supported by your browser.');
     return;
   }
 
@@ -378,13 +377,10 @@ document.getElementById('location-btn').addEventListener('click', () => {
         longitude: lon,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       });
-      alert(`Location saved!\nLat: ${lat}, Lon: ${lon}`);
     } catch (error) {
       console.error('Error saving location:', error);
-      alert('Failed to save location.');
     }
   }, (error) => {
     console.error('Geolocation error:', error);
-    alert('Could not get location. Make sure location access is enabled.');
   });
 });
