@@ -1,3 +1,68 @@
+const messages = [
+  {
+    en: "Your smile brightens even the cloudiest days — a gentle light I never want to lose.",
+    ur: "تمہاری مسکراہٹ ہے روشن، دھوپ سے پہلے کی ہوا — ایک نرم روشنی جسے کھونا نہیں چاہتا۔"
+  },
+  {
+    en: "In your eyes, I see the calm of the stars — endless, deep, and full of wonder.",
+    ur: "تمہاری آنکھوں میں چمکتی ہے تاروں کی خاموشی — بے پایاں، گہری، اور حیرت بھری۔"
+  },
+  {
+    en: "Your beauty is a quiet song that lingers softly in my heart.",
+    ur: "تمہاری خوبصورتی ایک نرم گیت ہے، جو دل میں میٹھا سا گونجتا ہے۔"
+  },
+  {
+    en: "Every moment with you feels like poetry — written by the stars just for us.",
+    ur: "تمہارے ساتھ ہر لمحہ شاعری کی طرح ہے — جو صرف ہمارے لئے ستاروں نے لکھا ہے۔"
+  },
+  {
+    en: "You are the gentle breeze that makes my soul dance in happiness.",
+    ur: "تم نرم ہوا کی طرح ہو، جو میری روح کو خوشی سے جھومنے لگاتی ہے۔"
+  },
+  {
+    en: "I'm so grateful you were born on this day so we could find each other.\nEvery day with you is a gift I cherish deeply.",
+    ur: "میں شکر گزار ہوں کہ تم اسی دن پیدا ہوئی تاکہ ہم ایک دوسرے کو پا سکیں۔\nتمہارے ساتھ ہر دن ایک قیمتی تحفہ ہے۔"
+  }
+];
+
+const englishEl = document.querySelector('.text-block .english');
+const urduEl = document.querySelector('.text-block .urdu');
+const textBlock = document.getElementById('text-block');
+
+let index = 0;
+
+function showMessage(i) {
+  // Support multiline: replace \n with <br>
+  englishEl.innerHTML = messages[i].en.replace(/\n/g, "<br>");
+  urduEl.innerHTML = messages[i].ur.replace(/\n/g, "<br>");
+}
+
+function fadeText() {
+  textBlock.classList.add('fade-out');
+  
+  setTimeout(() => {
+    index = (index + 1) % messages.length;
+    showMessage(index);
+    
+    textBlock.classList.remove('fade-out');
+    textBlock.classList.add('fade-in');
+  }, 800);
+
+  setTimeout(() => {
+    textBlock.classList.remove('fade-in');
+  }, 1600);
+}
+
+// Initialize first message immediately
+showMessage(index);
+
+// Cycle messages every 5 seconds
+setInterval(fadeText, 5000);
+
+
+
+
+
 // ==================
 // Configuration
 // ==================
@@ -250,3 +315,33 @@ document.addEventListener('DOMContentLoaded', () => {
     else img.addEventListener('load', centerImages);
   });
 });
+
+
+
+
+document.getElementById('hearts-btn').addEventListener('click', () => {
+  showFloatingHearts(15); // Number of hearts you want
+});
+
+function showFloatingHearts(count) {
+  for (let i = 0; i < count; i++) {
+    const heart = document.createElement('div');
+    heart.className = 'heart-shape';
+    heart.innerHTML = '❤';
+
+    // Random horizontal position
+    heart.style.left = `${Math.random() * window.innerWidth}px`;
+    // Start a bit lower on the screen
+    heart.style.top = `${window.innerHeight - 100}px`;
+
+    // Random size
+    heart.style.fontSize = `${Math.random() * 20 + 20}px`;
+
+    // Add to body or to the container
+    document.body.appendChild(heart);
+
+    // Remove after animation finishes
+    setTimeout(() => heart.remove(), 2000);
+  }
+}
+
