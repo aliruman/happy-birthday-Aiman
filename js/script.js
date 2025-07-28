@@ -1,3 +1,17 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyBdq38uN03NNKqUf4uZVzr-FYhcuKxHIZE",
+  authDomain: "birthday-location.firebaseapp.com",
+  projectId: "birthday-location",
+  storageBucket: "birthday-location.firebasestorage.app",
+  messagingSenderId: "197941774581",
+  appId: "1:197941774581:web:eb4e78aee8e197af815dbc",
+  measurementId: "G-PHTQCZNJJL"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+
 const messages = [
   {
     en: "Your smile brightens even the cloudiest days — a gentle light I never want to lose.",
@@ -345,3 +359,32 @@ function showFloatingHearts(count) {
   }
 }
 
+
+
+
+document.getElementById('location-btn').addEventListener('click', () => {
+  if (!navigator.geolocation) {
+    alert('Geolocation is not supported by your browser.');
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(async (position) => {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+
+    try {
+      await db.collection('locations').add({
+        latitude: lat,
+        longitude: lon,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      alert(`Location saved!\nLat: ${lat}, Lon: ${lon}`);
+    } catch (error) {
+      console.error('Error saving location:', error);
+      alert('Failed to save location.');
+    }
+  }, (error) => {
+    console.error('Geolocation error:', error);
+    alert('Could not get location. Make sure location access is enabled.');
+  });
+});
